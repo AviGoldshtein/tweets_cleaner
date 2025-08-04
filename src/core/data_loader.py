@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import json
 
 class DataLoader:
     def __init__(self):
@@ -9,3 +10,7 @@ class DataLoader:
         if os.path.exists(path):
             return pd.read_csv(path)
         return None
+
+    def dump_to_json(self, path: str, data: dict) -> None:
+        with open(path, mode="w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)

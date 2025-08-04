@@ -1,12 +1,15 @@
+from src.utiles.servise import convert_numpy_types
+
 class Controller:
-    def __init__(self, cleaner, data_analyzer, data_loader, file_path):
-        self.file_path = file_path
+    def __init__(self, cleaner, data_analyzer, data_loader):
+        self.json_path = "../data/results.json"
+        self.loaded_csv_file_path = "../data/tweets_dataset.csv"
         self.cleaner = cleaner
         self.data_analyzer = data_analyzer
         self.data_loader = data_loader
 
     def run(self):
-        df = self.data_loader.load_data(self.file_path)
+        df = self.data_loader.load_data(self.loaded_csv_file_path)
         self.data_analyzer.categorize_to_semitic(df)
         results = {}
         if not df.empty:
@@ -21,6 +24,8 @@ class Controller:
             results.update(three_longest_tweets_by_category)
             results.update(ten_most_common_words)
             results.update(uppercase_words_amount)
+
+            self.data_loader.dump_to_json(self.json_path, convert_numpy_types(results))
 
         for k, v in results.items():
             print(k, v)
