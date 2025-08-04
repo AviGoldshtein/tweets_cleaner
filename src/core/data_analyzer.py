@@ -52,4 +52,12 @@ class DataAnalyzer:
         return {"common_words": {"total": most_common_in_list}}
 
     def uppercase_words_amount(self, df) -> dict:
-        pass
+        uppercase_words = {"uppercase_words": {}}
+        total = 0
+        for category in df['semitic_category'].unique():
+            mask = df['semitic_category'] == category
+            sum_of_uppercase_words = df[mask]['Text'].map(lambda x: sum(1 for word in x.split() if word.isupper())).sum()
+            uppercase_words['uppercase_words'][category] = sum_of_uppercase_words
+            total += sum_of_uppercase_words
+        uppercase_words['uppercase_words']['total'] = total
+        return uppercase_words
