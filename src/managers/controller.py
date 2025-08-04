@@ -11,6 +11,17 @@ class Controller:
         results = {}
         if not df.empty:
             tweet_amount_by_category = self.data_analyzer.tweet_amount_by_category(df)
+            average_length_tweets = self.data_analyzer.get_average_length_tweets(df)
+            three_longest_tweets_by_category = self.data_analyzer.three_longest_tweets_by_category(df)
+            ten_most_common_words = self.data_analyzer.ten_most_common_words(df)
+            uppercase_words_amount = self.data_analyzer.uppercase_words_amount(df)
+
+
+
             results.update(tweet_amount_by_category)
+            results.update(average_length_tweets)
+            results.update(three_longest_tweets_by_category)
+            results.update(ten_most_common_words)
+            results.update(uppercase_words_amount)
 
         print(results)

@@ -14,3 +14,30 @@ class DataAnalyzer:
     def categorize_to_semitic(self, df):
         df['semitic_category'] = df['Biased'].map(lambda x: "antisemitic" if x == 1 else "non_antisemitic").astype("category")
         return df
+
+    def get_average_length_tweets(self, df) -> dict:
+        total = df['Text'].map(lambda x: len(x.split())).mean()
+
+        mask = df['semitic_category'] == "antisemitic"
+        antisemitic = df[mask]['Text'].map(lambda x: len(x.split())).mean()
+
+        mask = df['semitic_category'] == "non_antisemitic"
+        non_antisemitic = df[mask]['Text'].map(lambda x: len(x.split())).mean()
+
+        average_lengths = {
+            "average_length": {
+                "total": total,
+                "antisemitic": antisemitic,
+                "non_antisemitic": non_antisemitic
+            }
+        }
+        return average_lengths
+
+    def three_longest_tweets_by_category(self, df) -> dict:
+        pass
+
+    def ten_most_common_words(self, df) -> dict:
+        pass
+
+    def uppercase_words_amount(self, df) -> dict:
+        pass
