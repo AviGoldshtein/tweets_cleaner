@@ -21,3 +21,12 @@ class DataCleaner:
         text = text.replace(",", "")
         text = text.replace(".", "")
         return text
+
+    def convert_to_lowercase(self, df: pd.DataFrame) -> pd.DataFrame:
+        df['Text'] = df['Text'].apply(lambda x: x.lower())
+        return df
+
+    def remove_uncategorized_tweets(self, df: pd.DataFrame) -> pd.DataFrame:
+        uncategorized_tweets = df['Biased'].isna()
+        df = df[~uncategorized_tweets]
+        return df

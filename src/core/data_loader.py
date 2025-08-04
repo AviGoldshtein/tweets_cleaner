@@ -14,3 +14,7 @@ class DataLoader:
     def dump_to_json(self, path: str, data: dict) -> None:
         with open(path, mode="w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
+
+    def dump_to_csv(self, path: str, data: pd.DataFrame) -> None:
+        print(data.head())
+        data.to_csv(path)
