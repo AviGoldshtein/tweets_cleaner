@@ -1,10 +1,11 @@
 from src.utiles.servise import convert_numpy_types
 
 class Controller:
-    def __init__(self, cleaner, data_analyzer, data_loader):
-        self.json_path = "../data/results.json"
+    def __init__(self, data_cleaner, data_analyzer, data_loader):
+        self.json_path = "../results/results.json"
         self.loaded_csv_file_path = "../data/tweets_dataset.csv"
-        self.cleaner = cleaner
+        self.cleaned_csv_path = "../results/cleaned_dataset_tweets.csv"
+        self.data_cleaner = data_cleaner
         self.data_analyzer = data_analyzer
         self.data_loader = data_loader
 
@@ -25,7 +26,13 @@ class Controller:
             results.update(ten_most_common_words)
             results.update(uppercase_words_amount)
 
+            # for k, v in results.items():
+            #     print(k, v)
+
             self.data_loader.dump_to_json(self.json_path, convert_numpy_types(results))
 
-        for k, v in results.items():
-            print(k, v)
+            df = self.data_cleaner.drop_unnecessary_columns(df)
+            df = self.data_cleaner.remove_punctuation_marks(df)
+            df = self.data_cleaner.convert_to_lowercase(df)
+            df = self.data_cleaner.remove_uncategorized_tweets(df)
+            self.data_loader.dump_to_csv(self.cleaned_csv_path, df)
