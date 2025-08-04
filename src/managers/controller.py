@@ -1,10 +1,10 @@
 from src.utiles.servise import convert_numpy_types
 
 class Controller:
-    def __init__(self, cleaner, data_analyzer, data_loader):
+    def __init__(self, data_cleaner, data_analyzer, data_loader):
         self.json_path = "../data/results.json"
         self.loaded_csv_file_path = "../data/tweets_dataset.csv"
-        self.cleaner = cleaner
+        self.data_cleaner = data_cleaner
         self.data_analyzer = data_analyzer
         self.data_loader = data_loader
 
@@ -27,5 +27,9 @@ class Controller:
 
             self.data_loader.dump_to_json(self.json_path, convert_numpy_types(results))
 
-        for k, v in results.items():
-            print(k, v)
+            df = self.data_cleaner.drop_unnecessary_columns(df)
+            df = self.data_cleaner.remove_punctuation_marks(df)
+
+
+        # for k, v in results.items():
+        #     print(k, v)
