@@ -3,11 +3,14 @@ class DataAnalyzer:
         pass
 
     def tweet_amount_by_category(self, df) -> dict:
-        amounts = {"total_tweets": {}}
-        value_counts = df.value_counts("Biased")
+        amounts = {"total_tweets": {"total": 0}}
+        value_counts = df.value_counts("semitic_category")
         for category in value_counts.index:
-            if category == 0:
-                amounts['total_tweets']['non_antisemitic'] = value_counts[category]
-            elif category == 1:
-                amounts['total_tweets']['antisemitic'] = value_counts[category]
+            amount_of_category = value_counts[category]
+            amounts['total_tweets'][category] = amount_of_category
+            amounts['total_tweets']['total'] += amount_of_category
         return amounts
+
+    def categorize_to_semitic(self, df):
+        df['semitic_category'] = df['Biased'].map(lambda x: "antisemitic" if x == 1 else "non_antisemitic").astype("category")
+        return df

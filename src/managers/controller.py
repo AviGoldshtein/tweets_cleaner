@@ -7,6 +7,7 @@ class Controller:
 
     def run(self):
         df = self.data_loader.load_data(self.file_path)
+        self.data_analyzer.categorize_to_semitic(df)
         results = {}
         if not df.empty:
             tweet_amount_by_category = self.data_analyzer.tweet_amount_by_category(df)
