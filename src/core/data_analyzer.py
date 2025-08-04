@@ -1,3 +1,5 @@
+import pandas as pd
+
 class DataAnalyzer:
     def __init__(self):
         pass
@@ -46,7 +48,8 @@ class DataAnalyzer:
         return three_longest_tweets_for_category
 
     def ten_most_common_words(self, df) -> dict:
-        pass
+        most_common_in_list = list(pd.Series(df['Text'].sum().split()).value_counts().head(10).index)
+        return {"common_words": {"total": most_common_in_list}}
 
     def uppercase_words_amount(self, df) -> dict:
         pass
