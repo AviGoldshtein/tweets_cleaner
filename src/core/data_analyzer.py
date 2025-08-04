@@ -34,7 +34,16 @@ class DataAnalyzer:
         return average_lengths
 
     def three_longest_tweets_by_category(self, df) -> dict:
-        pass
+        df['count_chars_of_text'] = df['Text'].map(lambda x: len(x))
+        df = df.sort_values(by=['count_chars_of_text'], ascending=False)
+
+        three_longest_tweets_for_category = {"longest_3_tweets": {}}
+        for category in df['semitic_category'].unique():
+            df_with_category = df[df["semitic_category"] == category]
+            three_longest_tweets = list(df_with_category['Text'].head(3))
+            three_longest_tweets_for_category['longest_3_tweets'][category] = three_longest_tweets
+
+        return three_longest_tweets_for_category
 
     def ten_most_common_words(self, df) -> dict:
         pass
